@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "893437626331",
+    "project_id": "saud-backend",
+    "storage_bucket": "saud-backend.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893437626331:android:e18e248abe30d7c616c9fe",
+        "android_client_info": {
+          "package_name": "com.example.saud_backend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrVxe7f8DD7pn6hDYAbZFCfCBgHG24Sxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
