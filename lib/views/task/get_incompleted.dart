@@ -5,39 +5,25 @@ import 'package:saud_backend/services/task.dart';
 import 'package:saud_backend/views/task/create_task.dart';
 import 'package:saud_backend/views/task/update_task.dart';
 
-import 'get_completed.dart';
-import 'get_incompleted.dart';
-
-class GetAllTask extends StatelessWidget {
-  const GetAllTask({super.key});
+class GetInCompletedTask extends StatelessWidget {
+  const GetInCompletedTask({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Get All Task"),
+        title: Text("Get InCompleted Task"),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetCompletedTask()));
-          }, icon: Icon(Icons.circle)),
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetInCompletedTask()));
-          }, icon: Icon(Icons.incomplete_circle)),
-        ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateTask()));
-      },child: Icon(Icons.add),),
       body: StreamProvider.value(
-          value: TaskServices().getAllTask(),
-          initialData: [TaskModel()],
-          builder: (context, child){
-            List<TaskModel> taskList = context.watch<List<TaskModel>>();
-            return ListView.builder(
-              itemCount: taskList.length,
-              itemBuilder: (BuildContext context, int index) {
+        value: TaskServices().getInCompletedTask(),
+        initialData: [TaskModel()],
+        builder: (context, child){
+          List<TaskModel> taskList = context.watch<List<TaskModel>>();
+          return ListView.builder(
+            itemCount: taskList.length,
+            itemBuilder: (BuildContext context, int index) {
               return ListTile(
                 leading: Icon(Icons.task),
                 title: Text(taskList[index].title.toString()),
@@ -60,7 +46,7 @@ class GetAllTask extends StatelessWidget {
                     IconButton(onPressed: ()async{
                       try{
                         await TaskServices().deleteTask(
-                          taskList[index].docId.toString()
+                            taskList[index].docId.toString()
                         );
                       }catch(e){
                         ScaffoldMessenger.of(context)
@@ -74,7 +60,7 @@ class GetAllTask extends StatelessWidget {
                 ),
               );
             },);
-          },
+        },
       ),
     );
   }
