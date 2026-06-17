@@ -64,4 +64,34 @@ class TaskServices{
         .map((taskJson) => TaskModel.fromJson(taskJson.data())
     ).toList());
   }
+  ///Get All Saved Task
+  Stream<List<TaskModel>> getAllSavedTask(String userID){
+    return FirebaseFirestore.instance
+        .collection(taskCollection)
+        .where("saved" , arrayContains: userID)
+        .snapshots()
+        .map((taskList) => taskList.docs
+        .map((taskJson) => TaskModel.fromJson(taskJson.data())
+    ).toList());
+  }
+  ///add To Saved
+  Future addToSaved({
+    required String taskID,
+    required String userID
+})async{
+    return await FirebaseFirestore.instance
+        .collection(taskCollection)
+        .doc(taskID)
+        .update({"saved": FieldValue.arrayUnion([userID])});
+  }
+  ///Remove From Saved
+  Future removeFromSaved({
+    required String taskID,
+    required String userID
+})async{
+    return await FirebaseFirestore.instance
+        .collection(taskCollection)
+        .doc(taskID)
+        .update({"saved": FieldValue.arrayRemove([userID])});
+  }
 }

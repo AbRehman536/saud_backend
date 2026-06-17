@@ -2,40 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saud_backend/models/task.dart';
 import 'package:saud_backend/services/task.dart';
-import 'package:saud_backend/views/task/create_task.dart';
-import 'package:saud_backend/views/task/get_saved_task.dart';
 import 'package:saud_backend/views/task/update_task.dart';
 
-import 'get_completed.dart';
-import 'get_incompleted.dart';
-
-class GetAllTask extends StatelessWidget {
-  const GetAllTask({super.key});
+class GetSavedTask extends StatelessWidget {
+  const GetSavedTask({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Get All Task"),
+        title: Text("Saved Task"),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetCompletedTask()));
-          }, icon: Icon(Icons.circle)),
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetInCompletedTask()));
-          }, icon: Icon(Icons.incomplete_circle)),
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetSavedTask()));
-          }, icon: Icon(Icons.bookmark)),
-        ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateTask()));
-      },child: Icon(Icons.add),),
       body: StreamProvider.value(
-          value: TaskServices().getAllTask(),
+          value: TaskServices().getAllSavedTask("101"),
           initialData: [TaskModel()],
           builder: (context, child){
             List<TaskModel> taskList = context.watch<List<TaskModel>>();
@@ -60,7 +41,7 @@ class GetAllTask extends StatelessWidget {
                             taskID: taskList[index].docId.toString(),
                             userID: "101");
                       }
-                    }, icon: Icon(taskList[index].saved!.contains("101") ? Icons.bookmark : Icons.bookmark_border_outlined)),
+                    }, icon: Icon(Icons.bookmark)),
                     Checkbox(
                         value: taskList[index].isCompleted,
                         onChanged: (value)async{
@@ -76,7 +57,7 @@ class GetAllTask extends StatelessWidget {
                     IconButton(onPressed: ()async{
                       try{
                         await TaskServices().deleteTask(
-                          taskList[index].docId.toString()
+                            taskList[index].docId.toString()
                         );
                       }catch(e){
                         ScaffoldMessenger.of(context)
@@ -88,8 +69,7 @@ class GetAllTask extends StatelessWidget {
                     }, icon: Icon(Icons.edit))
                   ],
                 ),
-              );
-            },);
+              );});
           },
       ),
     );
