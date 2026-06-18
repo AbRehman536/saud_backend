@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saud_backend/models/task.dart';
 import 'package:saud_backend/services/task.dart';
+import 'package:saud_backend/views/priority/get_all_priority.dart';
 import 'package:saud_backend/views/task/create_task.dart';
 import 'package:saud_backend/views/task/get_saved_task.dart';
 import 'package:saud_backend/views/task/update_task.dart';
@@ -29,6 +30,9 @@ class GetAllTask extends StatelessWidget {
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> GetSavedTask()));
           }, icon: Icon(Icons.bookmark)),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetAllPriority()));
+          }, icon: Icon(Icons.priority_high)),
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
