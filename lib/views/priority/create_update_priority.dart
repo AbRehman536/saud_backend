@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:saud_backend/models/priority.dart';
+
 import 'package:saud_backend/services/priority.dart';
+
+import '../../models/Priority.dart';
 
 class CreateUpdatePriority extends StatefulWidget {
   final PriorityModel model;

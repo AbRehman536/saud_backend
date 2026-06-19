@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:saud_backend/models/Priority.dart';
 import 'package:saud_backend/models/task.dart';
+import 'package:saud_backend/services/priority.dart';
 import 'package:saud_backend/services/task.dart';
 
 class CreateTask extends StatefulWidget {
@@ -13,6 +15,18 @@ class _CreateTaskState extends State<CreateTask> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   bool isLoading = false;
+  List<PriorityModel> priorityList = [];
+  PriorityModel? _selectedPriority;
+  @override
+  void initState(){
+    super.initState();
+    PriorityServices().getPriority()
+    .then((value){
+      setState(() {
+        priorityList = value;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +49,19 @@ class _CreateTaskState extends State<CreateTask> {
               hint: Text("Description")
             ),
           ),
+          DropdownButton(
+            hint: Text("Select Priority"),
+              value: _selectedPriority,
+              items: priorityList.map((item){
+                return DropdownMenuItem(
+                   value: item,
+                    child: Text(item.name.toString()));
+              }).toList(),
+              onChanged: (value){
+              setState(() {
+                _selectedPriority = value;
+              });
+              }),
           isLoading ? Center(child: CircularProgressIndicator(),)
          : ElevatedButton(onPressed: ()async{
             try{
@@ -42,6 +69,7 @@ class _CreateTaskState extends State<CreateTask> {
               setState(() {});
               await TaskServices().createTask(
                 TaskModel(
+                  priorityID: _selectedPriority!.docId.toString(),
                   title: titleController.text.toString(),
                   description: descriptionController.text.toString(),
                   isCompleted: false,

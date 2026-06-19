@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:saud_backend/models/Priority.dart';
 
-import '../models/priority.dart';
+import '../models/Priority.dart';
+
 
 class PriorityServices{
   String priorityCollection = "PriorityCollection";

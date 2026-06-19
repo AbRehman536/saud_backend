@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saud_backend/services/priority.dart';
 import 'package:saud_backend/views/priority/create_update_priority.dart';
+import 'package:saud_backend/views/priority/get_priorities.dart';
 
-import '../../models/priority.dart';
+import '../../models/Priority.dart';
+
 
 class GetAllPriority extends StatelessWidget {
   const GetAllPriority({super.key});
@@ -25,12 +27,14 @@ class GetAllPriority extends StatelessWidget {
           builder: (context, child){
             List<PriorityModel> priorityList = context.watch<List<PriorityModel>>();
             return ListView.builder(
+              itemCount: priorityList.length,
               itemBuilder: (BuildContext context, int index) {
               return
                   ListTile(
                     leading: Icon(Icons.priority_high),
                     title: Text(priorityList[index].name.toString()),
                     trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(onPressed: ()async{
                           try{
@@ -45,6 +49,9 @@ class GetAllPriority extends StatelessWidget {
                         IconButton(onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateUpdatePriority(model: PriorityModel(), isUpdatedMode: true)));
                         }, icon: Icon(Icons.edit)),
+                        IconButton(onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> GetPriorities(model: priorityList[index])));
+                        }, icon: Icon(Icons.arrow_forward)),
                       ],
                     ),
                   );
